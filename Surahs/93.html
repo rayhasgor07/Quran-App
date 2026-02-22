@@ -35,73 +35,7 @@
         </audio>
     </div>
 
-    <div style="overflow:auto; display: flex; flex-direction: column;text-align: center; align-items: center; color:white; flex:1 1 100%; width:100%; height:auto;">
-        <text style="font-size: 125%; margin:10px;"><b>Chapter 93, Verse 1</b></text>
-        <text style="font-size: 120%;"><b>وَٱلضُّحَىٰ</b></text>
-        <text style="font-size: 115%;">By the morning brightness</text>
-        <br/>
-        <button style="margin:10px;" onclick="seekVerse(0)">Go to Verse 1</button>
-        
-        <text style="font-size: 125%; margin:10px;"><b>Chapter 93, Verse 2</b></text>
-        <text style="font-size: 120%;"><b>وَٱلَّيْلِ إِذَا سَجَىٰ</b></text>
-        <text style="font-size: 115%;">And [by] the night when it covers with darkness,</text>
-        <br/>
-        <button style="margin:10px;" onclick="seekVerse(1.5)">Go to Verse 2</button>
-        
-        <text style="font-size: 125%; margin:10px;"><b>Chapter 93, Verse 3</b></text>
-        <text style="font-size: 120%;"><b>مَا وَدَّعَكَ رَبُّكَ وَمَا قَلَىٰ</b></text>
-        <text style="font-size: 115%;">Your Lord has not taken leave of you, [O Muhammad], nor has He detested [you].</text>
-        <br/>
-        <button style="margin:10px;" onclick="seekVerse(3.9)">Go to Verse 3</button>
-        
-        <text style="font-size: 125%; margin:10px;"><b>Chapter 93, Verse 4</b></text>
-        <text style="font-size: 120%;"><b>وَلَلْـَٔاخِرَةُ خَيْرٌۭ لَّكَ مِنَ ٱلْأُولَىٰ</b></text>
-        <text style="font-size: 115%;">And the Hereafter is better for you than the first [life].</text>
-        <br/>
-        <button style="margin:10px;" onclick="seekVerse(7.3)">Go to Verse 4</button>
-        
-        <text style="font-size: 125%; margin:10px;"><b>Chapter 93, Verse 5</b></text>
-        <text style="font-size: 120%;"><b>وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰٓ</b></text>
-        <text style="font-size: 115%;">And your Lord is going to give you, and you will be satisfied.</text>
-        <br/>
-        <button style="margin:10px;" onclick="seekVerse(11.5)">Go to Verse 5</button>
-        
-        <text style="font-size: 125%; margin:10px;"><b>Chapter 93, Verse 6</b></text>
-        <text style="font-size: 120%;"><b>أَلَمْ يَجِدْكَ يَتِيمًۭا فَـَٔاوَىٰ</b></text>
-        <text style="font-size: 115%;">Did He not find you an orphan and give [you] refuge?</text>
-        <br/>
-        <button style="margin:10px;" onclick="seekVerse(15.5)">Go to Verse 6</button>
-        
-        <text style="font-size: 125%; margin:10px;"><b>Chapter 93, Verse 7</b></text>
-        <text style="font-size: 120%;"><b>وَوَجَدَكَ ضَآلًّۭا فَهَدَىٰ</b></text>
-        <text style="font-size: 115%;">And He found you lost and guided [you],</text>
-        <br/>
-        <button style="margin:10px;" onclick="seekVerse(20)">Go to Verse 7</button>
-        
-        <text style="font-size: 125%; margin:10px;"><b>Chapter 93, Verse 8</b></text>
-        <text style="font-size: 120%;"><b>وَوَجَدَكَ عَآئِلًۭا فَأَغْنَىٰ</b></text>
-        <text style="font-size: 115%;">And He found you poor and made [you] self-sufficient.</text>
-        <br/>
-        <button style="margin:10px;" onclick="seekVerse(26.5)">Go to Verse 8</button>
-        
-        <text style="font-size: 125%; margin:10px;"><b>Chapter 93, Verse 9</b></text>
-        <text style="font-size: 120%;"><b>فَأَمَّا ٱلْيَتِيمَ فَلَا تَقْهَرْ</b></text>
-        <text style="font-size: 115%;">So as for the orphan, do not oppress [him].</text>
-        <br/>
-        <button style="margin:10px;" onclick="seekVerse(32.7)">Go to Verse 9</button>
-        
-        <text style="font-size: 125%; margin:10px;"><b>Chapter 93, Verse 10</b></text>
-        <text style="font-size: 120%;"><b>وَأَمَّا ٱلسَّآئِلَ فَلَا تَنْهَرْ</b></text>
-        <text style="font-size: 115%;">And as for the petitioner, do not repel [him].</text>
-        <br/>
-        <button style="margin:10px;" onclick="seekVerse(36.5)">Go to Verse 10</button>
-        
-        <text style="font-size: 125%; margin:10px;"><b>Chapter 93, Verse 11</b></text>
-        <text style="font-size: 120%;"><b>وَأَمَّا بِنِعْمَةِ رَبِّكَ فَحَدِّثْ</b></text>
-        <text style="font-size: 115%;">But as for the favor of your Lord, report [it].</text>
-        <br/>
-        <button style="margin:10px;" onclick="seekVerse(41.5)">Go to Verse 11</button>        
-    </div>
+     <div id="surahContainer"></div>
 
     <div style="display: flex; flex-direction: row; align-items:flex-end; justify-content: center; flex:1; align-self:baseline; background-color: skyblue;">
         <a href="https://www.youtube.com/@RocketRoni2007">
@@ -112,12 +46,56 @@
         </a>
     </div>
 
-    <script>
-      function seekVerse(time) {
-        const audio = document.getElementById('audioPlayer');
-        audio.currentTime = time;
-        audio.play();
-      }
-    </script>
+   <script>
+async function loadSurah() {
+  const arabicRes = await fetch("https://api.alquran.cloud/v1/surah/93/quran-uthmani");
+  const englishRes = await fetch("https://api.alquran.cloud/v1/surah/93/en.asad");
+
+  const arabic = (await arabicRes.json()).data;
+  const english = (await englishRes.json()).data;
+
+  const container = document.getElementById("surahContainer");
+
+  arabic.ayahs.forEach((ayah, index) => {
+    const englishAyah = english.ayahs[index];
+
+    container.innerHTML += `
+      <div style="text-align:center; color:white; margin:20px;">
+        <div style="font-size:125%;"><b>Chapter 93, Verse ${index + 1}</b></div>
+
+        <!-- Arabic -->
+        <div style="font-size:120%;"><b>${ayah.text}</b></div>
+
+        <!-- English -->
+        <div style="font-size:115%;">${englishAyah.text}</div>
+
+        <!-- Audio button (your timestamps stay the same) -->
+        <button style="margin:10px;" onclick="seekVerse(${getTimestamp(index)})">
+          Go to Verse ${index + 1}
+        </button>
+      </div>
+    `;
+  });
+}
+function seekVerse(time) {
+  const audio = document.getElementById('audioPlayer');
+  audio.currentTime = time;
+  audio.play();
+}
+// Your custom timestamps for each ayah
+function getTimestamp(i) {
+  const times = [
+    0,     // Verse 1
+    3.5,   // Verse 2
+    9.5,   // Verse 3
+    16,    // Verse 4
+    22.5,  // Verse 5
+    29.5,  // Verse 6
+    32.2   // Verse 7
+  ];
+  return times[i];
+}
+loadSurah();
+</script>
   </body>
 </html>
