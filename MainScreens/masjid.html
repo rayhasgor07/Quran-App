@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <title>MASJID FINDER</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="../style.css" />
+
+    <!-- Leaflet Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <style>
+      #map {
+        height: 500px;
+        width: 90%;
+        margin: 20px auto;
+        border-radius: 10px;
+        border: 2px solid white;
+      }
+
+      #loading {
+        text-align: center;
+        color: white;
+        margin-top: 20px;
+        font-size: 18px;
+      }
+    </style>
+  </head>
+
+  <body style="background-color: cadetblue">
+
+    <!--Header-->
+    <header style="justify-content: center; display: flex; flex-direction: column; text-align: center; background-color: cadetblue; height:50px;">
+      <text style="font-size: larger; color:white;">MASJID FINDER</text>
+    </header>
+
+    <!--Navigation Bar-->
+    <div style="display: flex; flex-direction: row; justify-content: center; background-color: skyblue;">
+      <a id="buttons" href="../index.html"><text>HOME</text><i class="fa-solid fa-house"></i></a>
+      <a id="buttons" href="./quran.html"><text>QURAN</text><i class="fa-solid fa-book-quran"></i></a>
+      <a id="buttons" href="./dua.html"><text>DUAS</text><i class="fa-solid fa-hands-praying"></i></a>
+      <a id="buttons" href="./kursi.html"><text>AYATUL KURSI</text><i class="fa-solid fa-hand-point-up"></i></a>
+    </div>
+
+    <div style="display: flex; flex-direction: row; justify-content: center; background-color: skyblue;">
+      <a id="buttons" href="./prophets.html"><text>PROPHETS</text><i class="fa-solid fa-mosque"></i></a>
+      <a id="buttons" style="background-color: darkcyan;" href="./masjid.html"><text>MASJID</text><i class="fa-solid fa-mosque"></i></a>
+      <a id="buttons" href="./timings.html"><text>TIMINGS</text><i class="fa-solid fa-calendar-days"></i></a>
+      <a id="buttons" href="./hadith.html"><text>HADITHS</text><i class="fa-solid fa-scroll"></i></a>
+    </div>
+
+    <div style="display: flex; flex-direction: row; justify-content: center; background-color: skyblue;">
+      <a id="buttons" href="./extra.html"><text>EXTRA</text><i class="fa-solid fa-gear"></i></a>
+    </div>
+
+    <!-- MAP + LOADING TEXT -->
+    <div id="loading">Finding your location…</div>
+    <div id="map"></div>
+
+    <!-- Socials -->
+    <div style="display: flex; flex-direction: row; justify-content: center; background-color: skyblue;">
+      <a href="https://www.youtube.com/@RocketRoni2007"><i style="font-size:25px; margin:20px; color: white;" class="fa-brands fa-youtube"></i></a>
+      <a href="https://www.tiktok.com/@rocketroni2007"><i style="font-size:25px; margin:20px; color: white;" class="fa-brands fa-tiktok"></i></a>
+    </div>
+
+    <script>
+  const API_KEY = "AIzaSyDKu8vbz_DmLfpBFaeisIOlWOr-5K9NAf8";
+
+  navigator.geolocation.getCurrentPosition(success, error);
+
+  function success(position) {
+    const lat = position.coords.latitude;
+    const lng = position.coords.longitude;
+
+    document.getElementById("loading").innerText = "Loading nearby masjids…";
+
+    const map = L.map('map').setView([lat, lng], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+    }).addTo(map);
+
+    // YOUR LOCATION MARKER (unchanged)
+    L.marker([lat, lng]).addTo(map).bindPopup("You are here");
+
+    // CUSTOM MOSQUE ICON
+    const mosqueIcon = L.divIcon({
+      html: '<i class="fa-solid fa-mosque" style="font-size:26px;color:green;background:white;padding:6px;border-radius:50%;"></i>',
+      className: "",
+      iconSize: [34, 34],
+      iconAnchor: [17, 17]
+    });
+
+    // GOOGLE PLACES API (v1)
+    fetch("https://places.googleapis.com/v1/places:searchNearby", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Goog-Api-Key": API_KEY,
+        "X-Goog-FieldMask": "places.displayName,places.location,places.formattedAddress"
+      },
+      body: JSON.stringify({
+        includedTypes: ["mosque"],
+        maxResultCount: 20,
+        locationRestriction: {
+          circle: {
+            center: { latitude: lat, longitude: lng },
+            radius: 5000
+          }
+        }
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("loading").style.display = "none";
+
+      if (!data.places || data.places.length === 0) {
+        alert("No masjids found within 5 km.");
+        return;
+      }
+
+      data.places.forEach(place => {
+        const name = place.displayName?.text || "Masjid";
+        const plat = place.location.latitude;
+        const plng = place.location.longitude;
+        const address = place.formattedAddress || "";
+
+        // MASJID MARKER WITH MOSQUE ICON
+        L.marker([plat, plng], { icon: mosqueIcon })
+          .addTo(map)
+          .bindPopup(`<b>${name}</b><br>${address}`);
+      });
+    })
+    .catch(err => {
+      document.getElementById("loading").innerText = "Error loading masjids.";
+      console.error(err);
+    });
+  }
+
+  function error() {
+    alert("Please enable location to find nearby masjids.");
+  }
+</script>
+
+  </body>
+</html>
