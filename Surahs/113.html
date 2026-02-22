@@ -35,38 +35,7 @@
         </audio>
     </div>
 
-    <div style="overflow:auto; display: flex; flex-direction: column;text-align: center; align-items: center; color:white; flex:1 1 100%; width:100%; height:auto;">
-        <text style="font-size: 125%; margin:10px;"><b>Chapter 113, Verse 1</b></text>
-        <text style="font-size: 120%;"><b>قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ</b></text>
-        <text style="font-size: 115%;">Say, "I seek refuge in the Lord of the Daybreak,"</text>
-        <br/>
-        <button style="margin:10px;" onclick="seekVerse(0)">Go to Verse 1</button>
-
-        <text style="font-size: 125%; margin:10px;"><b>Chapter 113, Verse 2</b></text>
-        <text style="font-size: 120%;"><b>مِن شَرِّ مَا خَلَقَ</b></text>
-        <text style="font-size: 115%;">From the evil of what He has created,</text>
-        <br/>
-        <button style="margin:10px;" onclick="seekVerse(2.5)">Go to Verse 2</button>
-
-        <text style="font-size: 125%; margin:10px;"><b>Chapter 113, Verse 3</b></text>
-        <text style="font-size: 120%;"><b>وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ</b></text>
-        <text style="font-size: 115%;">And from the evil of the darkness when it settles,</text>
-        <br/>
-        <button style="margin:10px;" onclick="seekVerse(5.5)">Go to Verse 3</button>
-
-        <text style="font-size: 125%; margin:10px;"><b>Chapter 113, Verse 4</b></text>
-        <text style="font-size: 120%;"><b>وَمِن شَرِّ النَّفَّاثَاتِ فِى الْعُقَدِ</b></text>
-        <text style="font-size: 115%;">And from the evil of the blowers in knots,</text>
-        <br/>
-        <button style="margin:10px;" onclick="seekVerse(9.5)">Go to Verse 4</button>
-
-        <text style="font-size: 125%; margin:10px;"><b>Chapter 113, Verse 5</b></text>
-        <text style="font-size: 120%;"><b>وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ</b></text>
-        <text style="font-size: 115%;">And from the evil of the envious when they envy." </text>
-        <br/>
-        <button style="margin:10px;" onclick="seekVerse(14.5)">Go to Verse 5</button>
-
-    </div>
+     <div id="surahContainer"></div>
 
     <div style="display: flex; flex-direction: row; align-items:flex-end; justify-content: center; flex:1; align-self:baseline; background-color: skyblue;">
         <a href="https://www.youtube.com/@RocketRoni2007">
@@ -78,11 +47,53 @@
     </div>
 
     <script>
-      function seekVerse(time) {
-        const audio = document.getElementById('audioPlayer');
-        audio.currentTime = time;
-        audio.play();
-      }
-    </script>
+async function loadSurah() {
+  const arabicRes = await fetch("https://api.alquran.cloud/v1/surah/113/quran-uthmani");
+  const englishRes = await fetch("https://api.alquran.cloud/v1/surah/113/en.asad");
+
+  const arabic = (await arabicRes.json()).data;
+  const english = (await englishRes.json()).data;
+
+  const container = document.getElementById("surahContainer");
+
+  arabic.ayahs.forEach((ayah, index) => {
+    const englishAyah = english.ayahs[index];
+
+    container.innerHTML += `
+      <div style="text-align:center; color:white; margin:20px;">
+        <div style="font-size:125%;"><b>Chapter 113, Verse ${index + 1}</b></div>
+
+        <!-- Arabic -->
+        <div style="font-size:120%;"><b>${ayah.text}</b></div>
+
+        <!-- English -->
+        <div style="font-size:115%;">${englishAyah.text}</div>
+
+        <!-- Audio button (your timestamps stay the same) -->
+        <button style="margin:10px;" onclick="seekVerse(${getTimestamp(index)})">
+          Go to Verse ${index + 1}
+        </button>
+      </div>
+    `;
+  });
+}
+function seekVerse(time) {
+  const audio = document.getElementById('audioPlayer');
+  audio.currentTime = time;
+  audio.play();
+}
+// Your custom timestamps for each ayah
+function getTimestamp(i) {
+  const times = [
+    0,     // Verse 1
+    2.5,   // Verse 2
+    5.5,   // Verse 3
+    9.5,    // Verse 4
+    14.5,  // Verse 5
+  ];
+  return times[i];
+}
+loadSurah();
+</script>
   </body>
 </html>

@@ -35,38 +35,7 @@
         </audio>
     </div>
 
-    <div style="overflow:auto; display: flex; flex-direction: column;text-align: center; align-items: center; color:white; flex:1 1 100%; width:100%; height:auto;">
-        <text style="font-size: 125%; margin:10px;"><b>Chapter 114, Verse 1</b></text>
-        <text style="font-size: 120%;"><b>قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ</b></text>
-        <text style="font-size: 115%;">Say, "I seek refuge with the Lord of humankind,</text>
-        <br/>
-        <button style="margin:10px;" onclick="seekVerse(0)">Go to Verse 1</button>
-        <text style="font-size: 125%; margin:10px;"><b>Chapter 114, Verse 2</b></text>
-        <text style="font-size: 120%;"><b>مَلِكِ ٱلنَّاسِ</b></text>
-        <text style="font-size: 115%;">The Sovereign of humankind,</text>
-        <br/>
-        <button style="margin:10px;" onclick="seekVerse(6)">Go to Verse 2</button>
-        <text style="font-size: 125%; margin:10px;"><b>Chapter 114, Verse 3</b></text>
-        <text style="font-size: 120%;"><b>إِلَـٰهِ ٱلنَّاسِ</b></text>
-        <text style="font-size: 115%;">The God of humankind,</text>
-        <br/>
-        <button style="margin:10px;" onclick="seekVerse(11)">Go to Verse 3</button>
-        <text style="font-size: 125%; margin:10px;"><b>Chapter 114, Verse 4</b></text>
-        <text style="font-size: 120%;"><b>مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ</b></text>
-        <text style="font-size: 115%;">From the evil of the retreating whisperer,</text>
-        <br/>
-        <button style="margin:10px;" onclick="seekVerse(15)">Go to Verse 4</button>
-        <text style="font-size: 125%; margin:10px;"><b>Chapter 114, Verse 5</b></text>
-        <text style="font-size: 120%;"><b>ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ</b></text>
-        <text style="font-size: 115%;">Who whispers into the hearts of humankind,</text>
-        <br/>
-        <button style="margin:10px;" onclick="seekVerse(22.5)">Go to Verse 5</button>
-        <text style="font-size: 125%; margin:10px;"><b>Chapter 114, Verse 6</b></text>
-        <text style="font-size: 120%;"><b>مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ</b></text>
-        <text style="font-size: 115%;">From among jinn and humankind."</text>
-        <br/>
-        <button style="margin:10px;" onclick="seekVerse(29)">Go to Verse 6</button>
-    </div>
+     <div id="surahContainer"></div>
 
     <div style="display: flex; flex-direction: row; align-items:flex-end; justify-content: center; flex:1; align-self:baseline; background-color: skyblue;">
         <a href="https://www.youtube.com/@RocketRoni2007">
@@ -77,12 +46,55 @@
         </a>
     </div>
 
-    <script>
-      function seekVerse(time) {
-        const audio = document.getElementById('audioPlayer');
-        audio.currentTime = time;
-        audio.play();
-      }
-    </script>
+      <script>
+async function loadSurah() {
+  const arabicRes = await fetch("https://api.alquran.cloud/v1/surah/114/quran-uthmani");
+  const englishRes = await fetch("https://api.alquran.cloud/v1/surah/114/en.asad");
+
+  const arabic = (await arabicRes.json()).data;
+  const english = (await englishRes.json()).data;
+
+  const container = document.getElementById("surahContainer");
+
+  arabic.ayahs.forEach((ayah, index) => {
+    const englishAyah = english.ayahs[index];
+
+    container.innerHTML += `
+      <div style="text-align:center; color:white; margin:20px;">
+        <div style="font-size:125%;"><b>Chapter 114, Verse ${index + 1}</b></div>
+
+        <!-- Arabic -->
+        <div style="font-size:120%;"><b>${ayah.text}</b></div>
+
+        <!-- English -->
+        <div style="font-size:115%;">${englishAyah.text}</div>
+
+        <!-- Audio button (your timestamps stay the same) -->
+        <button style="margin:10px;" onclick="seekVerse(${getTimestamp(index)})">
+          Go to Verse ${index + 1}
+        </button>
+      </div>
+    `;
+  });
+}
+function seekVerse(time) {
+  const audio = document.getElementById('audioPlayer');
+  audio.currentTime = time;
+  audio.play();
+}
+// Your custom timestamps for each ayah
+function getTimestamp(i) {
+  const times = [
+    0,     // Verse 1
+    3.5,   // Verse 2
+    9.5,   // Verse 3
+    16,    // Verse 4
+    22.5,  // Verse 5
+    29.5,  // Verse 6
+  ];
+  return times[i];
+}
+loadSurah();
+</script>
   </body>
 </html>
