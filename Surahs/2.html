@@ -17,7 +17,7 @@
     <header style="justify-content: center;display: flex;flex-direction: column;text-align: center;background-color: cadetblue;height:50px;">
       <text style="font-size: larger; color:white;">Surah Bukarah</text>
     </header>
-<!--Navigation Bar-->
+    <!--Navigation Bar-->
     <div style="display: flex; flex-direction: row; justify-content: center; flex:1; background-color: skyblue;">
       <a id="buttons" href="../MainScreens/quran.html">
           <text style="margin-top: 10px;">QURAN</text>
@@ -29,17 +29,13 @@
       <text>To find the Aya/Verse you are looking for do the following. If you are on a laptop use Ctrl+f. If you are on mobile press the share button </text><i class="fa-solid fa-arrow-up-from-bracket"></i><text> on your browser and then scroll down to "find on/in page"</text>
     </div>
 
-
-   
-  
-    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 20px;">
-      <text style="color:white; margin:5px">There are 5 Audios so when this finishes the next will play. In total the length of the audio is 2 hrs</text>
-      <audio id="combinedAudio" controls>
-      </audio>
+    <div id="results" style="text-align: center;">
+        <audio id="audioPlayer" style="margin:20px" controls>
+            <source src="https://server11.mp3quran.net/yasser/002.mp3" type="audio/mp3"/>
+        </audio>
     </div>
 
-<div id="surahContainer"></div>
-   
+     <div id="surahContainer"></div>
 
     <div style="display: flex; flex-direction: row; align-items:flex-end; justify-content: center; flex:1; align-self:baseline; background-color: skyblue;">
         <a href="https://www.youtube.com/@RocketRoni2007">
@@ -49,46 +45,10 @@
           <i style="font-size:25px; margin:20px; text-decoration: none; color: white;" class="fa-brands fa-tiktok"></i>
         </a>
     </div>
-  </body>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const audioFiles = [
-        '../Sounds/2.1.mp3',
-        '../Sounds/2.2.mp3',
-        '../Sounds/2.3.mp3',
-        '../Sounds/2.4.mp3',
-        '../Sounds/2.5.mp3'
-      ];
 
-      const audioPlayer = document.getElementById('combinedAudio');
-      let currentIndex = 0;
-
-      // Function to play next audio
-      function playNextAudio() {
-        if (currentIndex < audioFiles.length) {
-          audioPlayer.src = audioFiles[currentIndex];
-          audioPlayer.play();
-          currentIndex++;
-        } else {
-          // Reset index to play from the beginning again
-          currentIndex = 0;
-        }
-      }
-
-      // Play the first audio file initially
-      playNextAudio();
-
-      // Event listener to play next audio when current audio ends
-      audioPlayer.addEventListener('ended', function() {
-        playNextAudio();
-      });
-    });
-  </script>
-  <script>
+   <script>
 async function loadSurah() {
-  // Arabic (Uthmani)
   const arabicRes = await fetch("https://api.alquran.cloud/v1/surah/2/quran-uthmani");
-  // English (Asad)
   const englishRes = await fetch("https://api.alquran.cloud/v1/surah/2/en.asad");
 
   const arabic = (await arabicRes.json()).data;
@@ -101,18 +61,41 @@ async function loadSurah() {
 
     container.innerHTML += `
       <div style="text-align:center; color:white; margin:20px;">
-        <div style="font-size:125%;"><b>Surah 2, Verse ${index + 1}</b></div>
+        <div style="font-size:125%;"><b>Chapter 2, Verse ${index + 1}</b></div>
 
         <!-- Arabic -->
         <div style="font-size:120%;"><b>${ayah.text}</b></div>
 
         <!-- English -->
         <div style="font-size:115%;">${englishAyah.text}</div>
+
+        <!-- Audio button (your timestamps stay the same) -->
+        <button style="margin:10px;" onclick="seekVerse(${getTimestamp(index)})">
+          Go to Verse ${index + 1}
+        </button>
       </div>
     `;
   });
 }
-
+function seekVerse(time) {
+  const audio = document.getElementById('audioPlayer');
+  audio.currentTime = time;
+  audio.play();
+}
+// Your custom timestamps for each ayah
+function getTimestamp(i) {
+  const times = [
+    0,     // Verse 1
+    3.5,   // Verse 2
+    9.5,   // Verse 3
+    16,    // Verse 4
+    22.5,  // Verse 5
+    29.5,  // Verse 6
+    32.2   // Verse 7
+  ];
+  return times[i];
+}
 loadSurah();
 </script>
+  </body>
 </html>

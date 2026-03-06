@@ -31,7 +31,7 @@
 
     <div id="results" style="text-align: center;">
         <audio id="audioPlayer" style="margin:20px" controls>
-            <source src="../Sounds/18.mp3" type="audio/mp3"/>
+            <source src="https://server11.mp3quran.net/yasser/018.mp3" type="audio/mp3"/>
         </audio>
     </div>
 
@@ -77,25 +77,38 @@ async function loadSurah() {
     `;
   });
 }
-function seekVerse(time) {
-  const audio = document.getElementById('audioPlayer');
-  audio.currentTime = time;
-  audio.play();
-}
-// Your custom timestamps for each ayah
-function getTimestamp(i) {
-  const times = [
-    0,     // Verse 1
-    3.5,   // Verse 2
-    9.5,   // Verse 3
-    16,    // Verse 4
-    22.5,  // Verse 5
-    29.5,  // Verse 6
-    32.2   // Verse 7
-  ];
-  return times[i];
-}
 loadSurah();
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const audioFiles = [
+        '../Sounds/18.1.mp3',
+        '../Sounds/18.2.mp3'
+      ];
+
+      const audioPlayer = document.getElementById('combinedAudio');
+      let currentIndex = 0;
+
+      // Function to play next audio
+      function playNextAudio() {
+        if (currentIndex < audioFiles.length) {
+          audioPlayer.src = audioFiles[currentIndex];
+          audioPlayer.play();
+          currentIndex++;
+        } else {
+          // Reset index to play from the beginning again
+          currentIndex = 0;
+        }
+      }
+
+      // Play the first audio file initially
+      playNextAudio();
+
+      // Event listener to play next audio when current audio ends
+      audioPlayer.addEventListener('ended', function() {
+        playNextAudio();
+      });
+    });
+  </script>
   </body>
 </html>
