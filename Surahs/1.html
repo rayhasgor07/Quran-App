@@ -11,6 +11,7 @@
       referrerpolicy="no-referrer"
     />
     <link rel="stylesheet" href="../style.css" />
+    <script src="reciter.js"></script>
   </head>
   <body style="background-color: cadetblue">
     <!--Header-->
@@ -30,10 +31,11 @@
       <text>To find the Aya/Verse you are looking for do the following. If you are on a laptop use Ctrl+f. If you are on mobile press the share button </text><i class="fa-solid fa-arrow-up-from-bracket"></i><text> on your browser and then scroll down to "find on/in page"</text>
     </div>
 
+    <div id="reciterDropdown"></div>
     <div id="results">
-        <audio id="audioPlayer" style="margin:20px" controls>
-            <source src="https://server11.mp3quran.net/yasser/001.mp3" />
-        </audio>
+    <audio id="audioPlayer" style="margin:20px" controls>
+    <source id="audioSource"/>
+    </audio>
     </div>
 
    <div id="surahContainer"></div>
