@@ -6,7 +6,6 @@ const reciters = {
   "Mohammed Siddiq Al-Minshawi":"https://server10.mp3quran.net/minsh/",
   "Mustafa Ismail":"https://server8.mp3quran.net/mustafa/Almusshaf-Al-Mojawwad/",
   "Saad Al-Ghamdi":"https://server7.mp3quran.net/s_gmd/",
-  "Saud Al-Shuraim":"https://server7.mp3quran.net/shur/001.mp3",
   "Yasser Al-Dossari": "https://server11.mp3quran.net/yasser/",
 };
 
